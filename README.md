@@ -1,4 +1,4 @@
-# 🏥 Federated Health Learning System
+# 🏥 Federated Learning System
 
 ### Privacy-Preserving Federated Learning platform using MERN stack
 
