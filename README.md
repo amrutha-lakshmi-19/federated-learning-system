@@ -1,4 +1,4 @@
-# 🏥 Federated Learning System
+# 🏥 Distributed Hierarchical Architecture For Privacy Preservation in Machine Learning
 
 ### Privacy-Preserving Federated Learning platform using MERN stack
 
