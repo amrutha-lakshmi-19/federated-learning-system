@@ -22,23 +22,42 @@ function federatedAveraging(clientUpdates) {
 
   aggregatedWeights = aggregatedWeights.map(w => w / numClients);
   aggregatedBias = aggregatedBias / numClients;
+// For now, use normalization params from first client
+// 🔥 Average normalization parameters from all clients
+let aggregatedMeans = new Array(clientUpdates[0].means.length).fill(0);
+let aggregatedStds = new Array(clientUpdates[0].stds.length).fill(0);
+
+clientUpdates.forEach(client => {
+  client.means.forEach((m, i) => {
+    aggregatedMeans[i] += m;
+  });
+
+  client.stds.forEach((s, i) => {
+    aggregatedStds[i] += s;
+  });
+});
+
+aggregatedMeans = aggregatedMeans.map(m => m / numClients);
+aggregatedStds = aggregatedStds.map(s => s / numClients);
 
   // Evaluate global model properly
-   const { accuracy, loss } = evaluateGlobalModel(aggregatedWeights, aggregatedBias);
-
+const { accuracy, loss, featureNames } =
+  evaluateGlobalModel(
+    aggregatedWeights,
+    aggregatedBias,
+    aggregatedMeans,
+    aggregatedStds
+  );
   // Update global model
-  globalModel.updateModel(aggregatedWeights, aggregatedBias, accuracy, loss);
-  //const metrics = evaluateGlobalModel(aggregatedWeights, aggregatedBias);
-/*const prevAccuracy = globalModel.accuracy ?? metrics.accuracy;
-const prevLoss = globalModel.loss ?? metrics.loss;
-
-// small controlled improvement
-const accuracy = Math.min(prevAccuracy + 0.01 + Math.random() * 0.02, 0.95);
-const loss = Math.max(prevLoss - 0.05 - Math.random() * 0.05, 0.2);
-
-  // Update global model
-  globalModel.updateModel(aggregatedWeights, aggregatedBias, accuracy, loss);
-  */
+globalModel.updateModel(
+  aggregatedWeights,
+  aggregatedBias,
+  accuracy,
+  loss,
+  featureNames,
+  aggregatedMeans,
+  aggregatedStds
+); 
 
   return globalModel.getModel();
 }

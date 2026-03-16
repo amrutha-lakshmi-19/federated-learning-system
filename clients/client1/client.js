@@ -22,8 +22,16 @@ socket.on("start_training", async () => {
     // train locally
     const csvPath = path.join(__dirname, "data", "heart_client1.csv");
     // train locally USING global weights
-const trained = trainLocalModel(csvPath, globalModel.weights);
+const ALGORITHM = "fedprox"; // change to "fedavg" if needed
 
+    const mu = ALGORITHM === "fedprox" ? 0.01 : 0;
+
+    const trained = trainLocalModel(
+    csvPath,
+    globalModel.weights,
+    globalModel.bias,
+    mu
+  );
 
     console.log("📤 Sending weights to server...");
     await sendUpdate(
@@ -31,7 +39,9 @@ const trained = trainLocalModel(csvPath, globalModel.weights);
   trained.weights,
   trained.bias,
   trained.accuracy,
-  trained.loss
+  trained.loss,
+  trained.means,
+  trained.stds
 );
 
     console.log(`✅ ${CLIENT_ID} round completed`);

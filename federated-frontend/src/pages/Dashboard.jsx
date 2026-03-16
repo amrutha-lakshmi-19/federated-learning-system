@@ -39,11 +39,17 @@ export default function Dashboard() {
   }, []);
 
   const chartData =
-    globalModel?.history?.map((h) => ({
-      round: h.round,
-      accuracy: Number((h.accuracy * 100).toFixed(2)),
-      loss: Number(h.loss.toFixed(4)),
-    })) || [];
+  globalModel?.history?.map((h) => ({
+    round: h.round,
+    accuracy:
+      h.accuracy != null
+        ? Number((h.accuracy * 100).toFixed(2))
+        : 0,
+    loss:
+      h.loss != null
+        ? Number(h.loss.toFixed(4))
+        : 0,
+  })) || [];
 
   return (
     <SidebarLayout>
@@ -118,8 +124,10 @@ export default function Dashboard() {
                     className="bg-gray-50 p-4 rounded-lg border"
                   >
                     <p className="text-gray-500 text-sm">
-                      Weight {index + 1}
-                    </p>
+  {globalModel.featureNames
+    ? globalModel.featureNames[index]
+    : `Weight ${index + 1}`}
+</p>
                     <p className="font-semibold text-gray-800">
                       {weight.toFixed(6)}
                     </p>

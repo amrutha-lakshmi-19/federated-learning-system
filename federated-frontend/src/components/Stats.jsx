@@ -32,7 +32,7 @@ const Stats = () => {
 
         <div>
           <h3 className="text-6xl font-bold text-emerald-600 font-heading">
-            95%
+            80%
           </h3>
           <p className="text-lg text-gray-600 mt-3">
             Target Accuracy

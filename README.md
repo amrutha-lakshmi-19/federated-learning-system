@@ -112,6 +112,7 @@ The system demonstrates:
 
    * `frontend`
    * `server`
+   * `clients`
 3. Start the backend server
 4. Start the frontend React application
 5. Run client simulations

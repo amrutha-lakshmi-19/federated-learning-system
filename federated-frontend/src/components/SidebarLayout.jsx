@@ -13,6 +13,7 @@ export default function SidebarLayout({ children }) {
     { name: "Client 1", path: "/client/client1" },
     { name: "Client 2", path: "/client/client2" },
     { name: "Client 3", path: "/client/client3" },
+    { name: "Predict", path: "/predict" },
   ];
 
   // Toggle Sidebar
